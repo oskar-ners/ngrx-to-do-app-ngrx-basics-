@@ -23,4 +23,18 @@ export class TasksEffects {
       })
     )
   );
+
+  addTask$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.addTask),
+      mergeMap((action) => {
+        return this.tasksService.addTask(action.newTask).pipe(
+          map((task: Task) => actions.addTaskSuccess({ task })),
+          catchError((error) =>
+            of(actions.addTaskError({ error: error.message }))
+          )
+        );
+      })
+    )
+  );
 }

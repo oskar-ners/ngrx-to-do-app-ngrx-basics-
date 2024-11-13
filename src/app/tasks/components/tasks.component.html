@@ -1,3 +1,15 @@
+<form #form="ngForm"
+      (ngSubmit)="addTask(form)">
+    <label for="addTask">Add Task:</label>
+    <input type="text"
+           id="addTask"
+           name="addTask"
+           [(ngModel)]="newTask">
+    <button type="submit">Add</button>
+</form>
+
+<h2>List of tasks:</h2>
+
 @if(isLoading$ | async) {
 <div>Loading...</div>
 }
@@ -6,6 +18,6 @@
 <div>Error: {{ error$ }}</div>
 }
 
-@for(task of tasks$ | async; track task.id) {
-<p>{{task.title}}</p>
+@for(task of tasks$ | async; track task.id; let i = $index) {
+<p>{{i + 1}}. {{task.title}}</p>
 }

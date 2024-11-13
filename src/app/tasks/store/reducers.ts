@@ -21,5 +21,17 @@ export const reducers = createReducer(
     ...state,
     error: action.error,
     isLoading: false,
+  })),
+  on(actions.addTask, (state) => ({
+    ...state,
+  })),
+  on(actions.addTaskSuccess, (state, action) => ({
+    ...state,
+    tasks: [...state.tasks, action.task],
+    error: null,
+  })),
+  on(actions.addTaskError, (state, action) => ({
+    ...state,
+    error: action.error,
   }))
 );
