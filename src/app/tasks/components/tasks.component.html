@@ -1,0 +1,11 @@
+@if(isLoading$ | async) {
+<div>Loading...</div>
+}
+
+@if(error$ | async) {
+<div>Error: {{ error$ }}</div>
+}
+
+@for(task of tasks$ | async; track task.id) {
+<p>{{task.title}}</p>
+}

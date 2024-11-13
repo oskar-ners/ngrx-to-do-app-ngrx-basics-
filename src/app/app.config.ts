@@ -1,9 +1,14 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { provideState, provideStore } from '@ngrx/store';
+import { reducers } from './tasks/store/reducers';
+import { provideEffects } from '@ngrx/effects';
+import { TasksEffects } from './tasks/store/effects';
+import { isDevMode } from '@angular/core';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +25,16 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     provideFirestore(() => getFirestore()),
+    provideStore(),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+      autoPause: true,
+      trace: true,
+      traceLimit: 75,
+      connectInZone: true,
+    }),
+    provideState('tasks', reducers),
+    provideEffects([TasksEffects]),
   ],
 };
