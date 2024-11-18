@@ -7,6 +7,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  setDoc,
 } from '@angular/fire/firestore';
 import { Observable, from, map } from 'rxjs';
 
@@ -32,10 +33,14 @@ export class TasksService {
     };
 
     return from(
-      addDoc(tasksCollection, task).then((docRef) => ({
-        ...task,
-        id: docRef.id,
-      }))
+      addDoc(tasksCollection, task).then((docRef) => {
+        const taskWithId = {
+          ...task,
+          id: docRef.id,
+        };
+
+        return setDoc(docRef, taskWithId).then(() => taskWithId);
+      })
     );
   }
 
