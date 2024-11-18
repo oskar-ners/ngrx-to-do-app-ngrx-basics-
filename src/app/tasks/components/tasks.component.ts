@@ -37,4 +37,8 @@ export class TasksComponent implements OnInit {
       this.newTask = '';
     }
   }
+
+  removeTask(taskId: string): void {
+    this.store.dispatch(actions.removeTask({ taskId: taskId }));
+  }
 }

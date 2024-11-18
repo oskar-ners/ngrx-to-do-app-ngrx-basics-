@@ -4,6 +4,8 @@ import {
   Firestore,
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
 } from '@angular/fire/firestore';
 import { Observable, from, map } from 'rxjs';
@@ -24,16 +26,21 @@ export class TasksService {
   addTask(newTask: string): Observable<Task> {
     const tasksCollection = collection(this.firestore, 'tasks');
 
-    const task: Task = {
+    const task = {
       title: newTask,
-      id: Math.random().toString(36).substr(2, 9),
       isCompleted: false,
     };
 
     return from(
-      addDoc(tasksCollection, task).then(() => ({
+      addDoc(tasksCollection, task).then((docRef) => ({
         ...task,
+        id: docRef.id,
       }))
     );
+  }
+
+  removeTask(toDoId: string): Observable<void> {
+    const taskDocRef = doc(this.firestore, `tasks/${toDoId}`);
+    return from(deleteDoc(taskDocRef));
   }
 }

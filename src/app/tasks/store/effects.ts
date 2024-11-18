@@ -37,4 +37,18 @@ export class TasksEffects {
       })
     )
   );
+
+  removeTask$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.removeTask),
+      mergeMap((action) => {
+        return this.tasksService.removeTask(action.taskId).pipe(
+          map(() => actions.removeTaskSuccess({ taskId: action.taskId })),
+          catchError((error) =>
+            of(actions.removeTaskError({ error: error.message }))
+          )
+        );
+      })
+    )
+  );
 }

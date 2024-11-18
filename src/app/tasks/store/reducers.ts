@@ -33,5 +33,17 @@ export const reducers = createReducer(
   on(actions.addTaskError, (state, action) => ({
     ...state,
     error: action.error,
+  })),
+  on(actions.removeTask, (state, action) => ({
+    ...state,
+  })),
+  on(actions.removeTaskSuccess, (state, action) => ({
+    ...state,
+    tasks: state.tasks.filter((task) => task.id !== action.taskId),
+    error: null,
+  })),
+  on(actions.removeTaskError, (state, action) => ({
+    ...state,
+    error: action.error,
   }))
 );

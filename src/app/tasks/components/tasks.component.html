@@ -20,4 +20,5 @@
 
 @for(task of tasks$ | async; track task.id; let i = $index) {
 <p>{{i + 1}}. {{task.title}}</p>
+<button (click)="removeTask(task.id)">Remove Task</button>
 }
