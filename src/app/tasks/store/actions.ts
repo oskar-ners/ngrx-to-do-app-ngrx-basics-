@@ -42,3 +42,18 @@ export const removeTaskError = createAction(
   '[Tasks] Remove Task Error',
   props<{ error: string }>()
 );
+
+export const editTask = createAction(
+  '[Tasks] Edit Task',
+  props<{ taskId: string; updatedTask: Task }>()
+);
+
+export const editTaskSuccess = createAction(
+  '[Tasks] Edit Task Success',
+  props<{ task: Task }>()
+);
+
+export const editTaskError = createAction(
+  '[Tasks] Edit Task Error',
+  props<{ error: string }>()
+);

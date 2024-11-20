@@ -45,5 +45,16 @@ export const reducers = createReducer(
   on(actions.removeTaskError, (state, action) => ({
     ...state,
     error: action.error,
+  })),
+  on(actions.editTaskSuccess, (state, action) => ({
+    ...state,
+    tasks: state.tasks.map((task) =>
+      task.id === action.task.id ? { ...task, ...action.task } : task
+    ),
+    error: null,
+  })),
+  on(actions.editTaskError, (state, action) => ({
+    ...state,
+    error: action.error,
   }))
 );

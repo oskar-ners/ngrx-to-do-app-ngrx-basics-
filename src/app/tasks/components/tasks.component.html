@@ -1,24 +1,42 @@
-<form #form="ngForm"
-      (ngSubmit)="addTask(form)">
-    <label for="addTask">Add Task:</label>
-    <input type="text"
-           id="addTask"
-           name="addTask"
-           [(ngModel)]="newTask">
-    <button type="submit">Add</button>
-</form>
+<div class="container">
+    <form #form="ngForm"
+          (ngSubmit)="addTask(form)">
+        <label for="addTask">Add Task:</label>
+        <input type="text"
+               id="addTask"
+               name="addTask"
+               [(ngModel)]="newTask">
+        <button type="submit">Add</button>
+    </form>
 
-<h2>List of tasks:</h2>
+    <h2>List of tasks:</h2>
 
-@if(isLoading$ | async) {
-<div>Loading...</div>
-}
+    @if(isLoading$ | async) {
+    <div>Loading...</div>
+    }
 
-@if(error$ | async) {
-<div>Error: {{ error$ }}</div>
-}
+    @if(error$ | async) {
+    <div>Error: {{ error$ }}</div>
+    }
 
-@for(task of tasks$ | async; track task.id; let i = $index) {
-<p>{{i + 1}}. {{task.title}}</p>
-<button (click)="removeTask(task.id)">Remove Task</button>
-}
+    @for(task of tasks$ | async; track task.id; let i = $index) {
+    <p>{{i + 1}}. {{task.title}}</p>
+
+    <button (click)="removeTask(task.id)">Remove Task</button>
+    @if(editingTaskId !== task.id) {
+    <button (click)="setEditingTaskId(task.id)">Edit Task</button>
+    }
+
+    @if(editingTaskId === task.id) {
+    <form #editForm="ngForm"
+          (ngSubmit)="editTask(task.id, updatedTaskTitle)">
+        <input type="text"
+               [(ngModel)]="updatedTaskTitle"
+               name="updatedTaskTitle" />
+        <button type="submit">Save</button>
+        <button type="button"
+                (click)="clearEditingTaskId()">Cancel</button>
+    </form>
+    }
+    }
+</div>

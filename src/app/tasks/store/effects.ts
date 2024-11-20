@@ -51,4 +51,20 @@ export class TasksEffects {
       })
     )
   );
+
+  editTask$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.editTask),
+      mergeMap((action) => {
+        return this.tasksService
+          .editTask(action.taskId, action.updatedTask)
+          .pipe(
+            map((task: Task) => actions.editTaskSuccess({ task })),
+            catchError((error) =>
+              of(actions.editTaskError({ error: error.message }))
+            )
+          );
+      })
+    )
+  );
 }

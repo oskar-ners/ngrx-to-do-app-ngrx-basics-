@@ -48,4 +48,12 @@ export class TasksService {
     const taskDocRef = doc(this.firestore, `tasks/${toDoId}`);
     return from(deleteDoc(taskDocRef));
   }
+
+  editTask(taskId: string, updatedTask: Task): Observable<Task> {
+    const taskDocRef = doc(this.firestore, `tasks/${taskId}`);
+
+    return from(setDoc(taskDocRef, updatedTask, { merge: true })).pipe(
+      map(() => updatedTask)
+    );
+  }
 }
